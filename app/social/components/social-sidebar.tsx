@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils"
 import { ChevronDown, Grid } from 'lucide-react'
 import { socialPlatforms } from "@/lib/social-config"
 import { useConnectedAccounts } from "@/lib/stores/use-connected-accounts"
-// import { useFacebookSDK } from '@/lib/facebook-sdk';
+import { useFacebookSDK } from '@/lib/facebook-sdk';
 import { toast } from "@/components/ui/use-toast"
 
 interface SocialSidebarProps {
@@ -42,7 +42,7 @@ export function SocialSidebar({ onCreatePost }: SocialSidebarProps) {
     const { data: session } = useSession()
     const pathname = usePathname()
     const { accounts, addAccount } = useConnectedAccounts()
-    // const { connectAccount } = useFacebookSDK();
+    const { connectAccount } = useFacebookSDK();
 
     // Update connected accounts when session changes
     useEffect(() => {
@@ -57,34 +57,37 @@ export function SocialSidebar({ onCreatePost }: SocialSidebarProps) {
         }
     }, [session, addAccount])
 
+    console.log(process.env.FACEBOOK_CLIENT_ID,'CLIENT ID')
+
+
     const handleConnect = async (platformId: string) => {
-      // if (platformId === 'facebook') {
-      //   try {
-      //     const response = await connectAccount();
-      //     console.log('Facebook account connected:', response);
-      //     // Here you would typically send this information to your backend
-      //     // to create or update the user's account
-      //     addAccount({
-      //       id: response.userID,
-      //       platform: 'facebook',
-      //       accountName: 'Facebook User', // You might want to fetch the user's name from the Facebook API
-      //       accessToken: response.accessToken,
-      //     });
-      //     toast({
-      //       title: "Connected to Facebook",
-      //       description: "You have successfully connected your Facebook account.",
-      //     });
-      //   } catch (error) {
-      //     console.error('Facebook connection error:', error);
-      //     toast({
-      //       title: "Facebook Connection Failed",
-      //       description: "There was an error connecting to Facebook. Please try again.",
-      //       variant: "destructive",
-      //     });
-      //   }
-      // }else{
+      if (platformId === 'facebook') {
+        try {
+          const response = await connectAccount();
+          console.log('Facebook account connected:', response);
+          // Here you would typically send this information to your backend
+          // to create or update the user's account
+          addAccount({
+            id: response.userID,
+            platform: 'facebook',
+            accountName: 'Facebook User', // You might want to fetch the user's name from the Facebook API
+            accessToken: response.accessToken,
+          });
+          toast({
+            title: "Connected to Facebook",
+            description: "You have successfully connected your Facebook account.",
+          });
+        } catch (error) {
+          console.error('Facebook connection error:', error);
+          toast({
+            title: "Facebook Connection Failed",
+            description: "There was an error connecting to Facebook. Please try again.",
+            variant: "destructive",
+          });
+        }
+      }else{
         await signIn(platformId, { callbackUrl: '/social' })
-      // }    
+      }    
     }    
     
     const handleDisconnect = (platform: string) => {
