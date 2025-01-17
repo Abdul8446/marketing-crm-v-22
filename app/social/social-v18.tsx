@@ -8,13 +8,13 @@ import { QueueView } from "./components/queue-view"
 import { CalendarView } from "./components/calendar-view"
 import { AnalyticsView } from "./components/analytics-view"
 import { PostComposer } from "./components/post-composer"
-import { useFacebookSDK } from '@/lib/facebook-sdk';
+// import { useFacebookSDK } from '@/lib/facebook-sdk';
 
 export default function SocialV18() {
   const [activeTab, setActiveTab] = useState("queue")
   const [showComposer, setShowComposer] = useState(false)
 
-  useFacebookSDK();
+  // useFacebookSDK();
 
   return (
     <div className="space-y-6">
