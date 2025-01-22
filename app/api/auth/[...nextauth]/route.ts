@@ -11,7 +11,8 @@ const handler = NextAuth({
       clientSecret: process.env.FACEBOOK_CLIENT_SECRET!,
       authorization: {
         params: {
-          scope: "email,public_profile",
+          // scope: "email,public_profile",
+          scope: "public_profile",
         },
       },
       profile(profile) {
@@ -40,19 +41,19 @@ const handler = NextAuth({
     InstagramProvider({
       clientId: process.env.INSTAGRAM_CLIENT_ID!,
       clientSecret: process.env.INSTAGRAM_CLIENT_SECRET!,
-      profile(profile) {
+      profile(profile) { 
         return {
           id: profile.id,
           name: profile.username,
           email: profile.email,
           image: profile.profile_picture,
-          platform: "instagram",
-        }
-      },
-    }),
+          platform: "instagram",   
+        }   
+      },   
+    }),   
     LinkedInProvider({
-      clientId: process.env.LINKEDIN_CLIENT_ID!,
-      clientSecret: process.env.LINKEDIN_CLIENT_SECRET!,
+      clientId: process.env.LINKEDIN_CLIENT_ID!,   
+      clientSecret: process.env.LINKEDIN_CLIENT_SECRET!,    
       profile(profile) {
         return {
           id: profile.id,
