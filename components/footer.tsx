@@ -29,6 +29,9 @@ export function Footer() {
           </p>
         </div>
         <div className="flex items-center space-x-1">
+          <Link href="/privacy-policy" className="text-sm text-muted-foreground hover:underline">
+            Privacy Policy
+          </Link>
           <Button variant="ghost" size="icon">
             <Github className="h-4 w-4" />
             <span className="sr-only">GitHub</span>
